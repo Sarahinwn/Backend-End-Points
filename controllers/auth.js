@@ -1,11 +1,12 @@
 const { response } = require('express');
 const bcrypt = require('bcryptjs');
-
+const sql = require('mssql');
+const conString = require('../database/config');
 const { generateJWT } = require('../helpers/jwt');
 
 const login = async(req, res = response) => {
     const { email, password } = req.body;
-    const usuario;
+    let usuario = null;
 
     try {
         sql.on('error', err => {
@@ -16,7 +17,7 @@ const login = async(req, res = response) => {
             });
         });
 
-        sql.connect(conString).then(pool => {
+        await sql.connect(conString).then(pool => {
             return pool.request()
                 .input('email', email)
                 .execute('stp_usuarios_login');
@@ -34,6 +35,7 @@ const login = async(req, res = response) => {
         }
 
         const validPassword = bcrypt.compareSync(password, usuario.password);
+
         if (!validPassword) {
             return res.status(400).json({
                 ok: false,
@@ -47,6 +49,7 @@ const login = async(req, res = response) => {
             ok: true,
             token: token
         });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
