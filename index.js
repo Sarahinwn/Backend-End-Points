@@ -14,4 +14,6 @@ app.use('/api/docentes', require('./routes/docentes'));
 app.use('/api/materias', require('./routes/materias'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/login', require('./routes/auth'));
+//directorio publico
+app.use(express.static('public'));
 app.listen(process.env.PORT);
