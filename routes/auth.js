@@ -1,8 +1,8 @@
 //Ruta api/login
 const { Router } = require('express');
-const { login, googleSignIn } = require('../controllers/auth');
+const { login, googleSignIn } = require('../bml/controllers/auth');
 const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validar-campos');
+const { validarCampos } = require('../bml/middlewares/validar-campos');
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.post('/', [
 )
 
 router.post('/google', [
-        check('token', 'El token de google es obligatorio').not().isEmpty,
+        check('token', 'El token de google es obligatorio').not().isEmpty(),
         validarCampos
     ],
     googleSignIn

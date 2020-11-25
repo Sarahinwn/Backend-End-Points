@@ -1,5 +1,5 @@
 const response = require('express');
-const conString = require('../database/config');
+const conString = require('../../dal/config');
 const sql = require('mssql');
 const bcrypt = require('bcryptjs');
 
